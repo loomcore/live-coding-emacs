@@ -10,4 +10,4 @@
 (load-dotfile "config/bindings.el")
 
 ;; set default font
-(set-face-attribute 'default nil :font "Droid Sans Mono-8")
+(set-face-attribute 'default nil :font "Ubuntu Mono-8")
