@@ -1,6 +1,6 @@
 (add-live-lib-path "clojure-mode")
 
-(add-hook 'clojure-mode-hook 'enable-paredit-mode)
+;; (add-hook 'clojure-mode-hook 'enable-paredit-mode)
 (add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
 
 (eval-after-load 'clojure-mode
