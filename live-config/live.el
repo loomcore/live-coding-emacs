@@ -29,7 +29,7 @@
 (load-live-config-file "key-chord-conf.el")
 (load-live-config-file "util-fns.el")
 (load-live-config-file "built-in.el")
-(load-live-config-file "paredit-conf.el")
+;; (load-live-config-file "paredit-conf.el")
 (load-live-config-file "lisps-conf.el")
 (load-live-config-file "cosmetic.el")
 (load-live-config-file "highlight-flash-conf.el")
