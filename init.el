@@ -32,3 +32,6 @@
 ;; Pull in personalised config
 (load-dotfile "config/core.el")
 
+;; load auctex
+(load "auctex.el" nil t t)
+(load "preview-latex.el" nil t t)

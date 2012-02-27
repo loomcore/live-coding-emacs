@@ -11,3 +11,6 @@
 
 ;; set default font
 (set-face-attribute 'default nil :font "Ubuntu Mono-8")
+
+;; tell auctex to output pdfs
+(setq TeX-PDF-mode t)
