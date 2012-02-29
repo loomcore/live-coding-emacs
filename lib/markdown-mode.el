@@ -17,8 +17,9 @@
 
 ;; Author: Jason R. Blevins <jrblevin@sdf.org>
 ;; Maintainer: Jason R. Blevins <jrblevin@sdf.org>
-;; Created: May 24, 2007
-;; Version: 1.8.1
+;; Chrome Patch: Phil Yeeles <phil@yeel.es>
+;; Created: 29th February, 2012
+;; Version: 1.8.2
 ;; Keywords: Markdown, GitHub Flavored Markdown, itex
 ;; URL: http://jblevins.org/projects/markdown-mode/
 
@@ -1779,10 +1780,26 @@ with the extension removed and replaced with .html."
         (kill-buffer-and-window))
       output-file)))
 
+(defun browse-url-chrome (f)
+  "Same as browse-url but with Chrome (Linux only)."
+  (interactive)
+  (let ()
+    (cond
+     ;; ((string-equal system-type "windows-nt") ; Windows
+     ;;  (shell-command (concat "firefox file://" buffer-file-name))
+     ;;  )
+     ((string-equal system-type "gnu/linux")
+      (shell-command (concat "chrome file://" f))
+      ))
+     ;; ((string-equal system-type "darwin") ; Mac
+     ;;  (shell-command (concat "open -a Firefox.app file://" buffer-file-name))
+     ;;    ) )
+    ))
+
 (defun markdown-export-and-view ()
   "Export to XHTML using `markdown-export' and browse the resulting file."
   (interactive)
-  (browse-url (markdown-export)))
+  (browse-url-chrome (markdown-export)))
 
 ;;; WikiLink Following/Markup =================================================
 
@@ -1796,19 +1813,19 @@ returned by `match-data'.  Note that the potential wiki link name must
 be available via `match-string'."
   (let ((case-fold-search nil))
     (and (thing-at-point-looking-at markdown-regex-wiki-link)
-	 (or (not buffer-file-name)
-	     (not (string-equal (buffer-file-name)
-				(markdown-convert-wiki-link-to-filename
-				 (match-string 1)))))
-	 (not (save-match-data
-		(save-excursion))))))
+     (or (not buffer-file-name)
+         (not (string-equal (buffer-file-name)
+                (markdown-convert-wiki-link-to-filename
+                 (match-string 1)))))
+     (not (save-match-data
+        (save-excursion))))))
 
 (defun markdown-convert-wiki-link-to-filename (name)
   "Generate a filename from the wiki link NAME.
 Spaces are converted to underscores, following the convention
 used by the Python Markdown WikiLinks extension."
   (let ((new-ext (file-name-extension (buffer-file-name)))
-	(new-basename (replace-regexp-in-string "[[:space:]\n]" "_" name)))
+    (new-basename (replace-regexp-in-string "[[:space:]\n]" "_" name)))
     (concat new-basename "." new-ext)))
 
 (defun markdown-follow-wiki-link (name)
@@ -1863,14 +1880,14 @@ and highlight accordingly."
   (goto-char from)
   (while (re-search-forward markdown-regex-wiki-link to t)
     (let ((highlight-beginning (match-beginning 0))
-	  (highlight-end (match-end 0))
-	  (file-name
-	   (markdown-convert-wiki-link-to-filename (match-string 1))))
+      (highlight-end (match-end 0))
+      (file-name
+       (markdown-convert-wiki-link-to-filename (match-string 1))))
       (if (file-exists-p file-name)
-	  (markdown-highlight-wiki-link
-	   highlight-beginning highlight-end markdown-link-face)
-	(markdown-highlight-wiki-link
-	 highlight-beginning highlight-end markdown-missing-link-face)))))
+      (markdown-highlight-wiki-link
+       highlight-beginning highlight-end markdown-link-face)
+    (markdown-highlight-wiki-link
+     highlight-beginning highlight-end markdown-missing-link-face)))))
 
 (defun markdown-extend-changed-region (from to)
   "Extend region given by FROM and TO so that we can fontify all links.
@@ -1880,14 +1897,14 @@ newline after."
   (goto-char from)
   (re-search-backward "\n" nil t)
   (let ((new-from (point-min))
-	(new-to (point-max)))
+    (new-to (point-max)))
     (if (not (= (point) from))
-	(setq new-from (point)))
+    (setq new-from (point)))
     ;; do the same thing for the first new line after 'to
     (goto-char to)
     (re-search-forward "\n" nil t)
     (if (not (= (point) to))
-	(setq new-to (point)))
+    (setq new-to (point)))
     (list new-from new-to)))
 
 (defun markdown-check-change-for-wiki-link (from to change)
@@ -1897,26 +1914,26 @@ CHANGE is the number of bytes of pre-change text replaced by the
 given range."
   (interactive "nfrom: \nnto: \nnchange: ")
   (let* ((inhibit-point-motion-hooks t)
-	 (inhibit-quit t)
-	 (modified (buffer-modified-p))
-	 (buffer-undo-list t)
-	 (inhibit-read-only t)
-	 (inhibit-point-motion-hooks t)
-	 (inhibit-modification-hooks t)
-	 (current-point (point))
-	 deactivate-mark)
+     (inhibit-quit t)
+     (modified (buffer-modified-p))
+     (buffer-undo-list t)
+     (inhibit-read-only t)
+     (inhibit-point-motion-hooks t)
+     (inhibit-modification-hooks t)
+     (current-point (point))
+     deactivate-mark)
     (unwind-protect
-	(save-restriction
-	  ;; Extend the region to fontify so that it starts
-	  ;; and ends at safe places.
-	  (multiple-value-bind (new-from new-to)
-	      (markdown-extend-changed-region from to)
-	    ;; Unfontify existing fontification (start from scratch)
-	    (markdown-unfontify-region-wiki-links new-from new-to)
-	    ;; Now do the fontification.
-	    (markdown-fontify-region-wiki-links new-from new-to)))
+    (save-restriction
+      ;; Extend the region to fontify so that it starts
+      ;; and ends at safe places.
+      (multiple-value-bind (new-from new-to)
+          (markdown-extend-changed-region from to)
+        ;; Unfontify existing fontification (start from scratch)
+        (markdown-unfontify-region-wiki-links new-from new-to)
+        ;; Now do the fontification.
+        (markdown-fontify-region-wiki-links new-from new-to)))
       (unless modified
-	(restore-buffer-modified-p nil)))
+    (restore-buffer-modified-p nil)))
     (goto-char current-point)))
 
 (defun markdown-fontify-buffer-wiki-links ()
@@ -2002,7 +2019,7 @@ This is an exact copy of `line-number-at-pos' for use in emacs21."
   ;; creating one of the wiki link documents. Make sure we get
   ;; refontified when we come back.
   (add-hook 'window-configuration-change-hook
-	    'markdown-fontify-buffer-wiki-links t t)
+        'markdown-fontify-buffer-wiki-links t t)
 
   ;; do the initial link fontification
   (markdown-fontify-buffer-wiki-links))
