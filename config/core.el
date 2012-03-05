@@ -10,7 +10,7 @@
 (load-dotfile "config/bindings.el")
 
 ;; set default font
-(set-face-attribute 'default nil :font "Ubuntu Mono-8")
+(set-face-attribute 'default nil :font "Inconsolata-8")
 
 ;; tell auctex to output pdfs
 (setq TeX-PDF-mode t)
