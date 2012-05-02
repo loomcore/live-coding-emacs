@@ -26,6 +26,12 @@
 (require 'mwe-log-commands)
 (require 'ace-jump-mode)
 
+;;Add these back when new version of autocomplete
+;;has been released.
+;;(load-live-config-file "popup-conf.el")
+;;(load-live-config-file "fuzzy-conf.el")
+
+(load-live-config-file "backup-dir-conf.el")
 (load-live-config-file "key-chord-conf.el")
 (load-live-config-file "util-fns.el")
 (load-live-config-file "built-in.el")
@@ -41,3 +47,7 @@
 (load-live-config-file "smex-conf.el")
 (load-live-config-file "yasnippet-conf.el")
 (load-live-config-file "undo-tree-conf.el")
+(load-live-config-file "refheap-conf.el")
+(load-live-config-file "javascript-conf.el")
+(load-live-config-file "tramp-conf.el")
+(load-live-config-file "mouse-conf.el")
