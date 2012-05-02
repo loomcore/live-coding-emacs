@@ -30,3 +30,9 @@
 (require 'emms-setup)
 (emms-standard)
 (emms-default-players)
+(setq emms-source-file-default-directory "~/Windows/Music")
+
+;; display time in modeline
+(setq display-time-day-and-date t
+      display-time-24hr-format t)
+(display-time)
