@@ -12,8 +12,8 @@
 ;; set default font
 (set-face-attribute 'default nil :font "Inconsolata-8")
 
-;; tell auctex to output pdfs
-(setq TeX-PDF-mode t)
+;;;; tell auctex to output pdfs
+;;(setq TeX-PDF-mode t)
 
 ;; markdown-mode
 (autoload 'markdown-mode "markdown-mode.el"
@@ -30,7 +30,7 @@
 (require 'emms-setup)
 (emms-standard)
 (emms-default-players)
-(setq emms-source-file-default-directory "~/Windows/Music")
+(setq emms-source-file-default-directory "~")
 
 ;; display time in modeline
 (setq display-time-day-and-date t
@@ -50,3 +50,11 @@
 ;;(autoload 'sml-mode "sml-mode" "Major mode for editing SML." t)
 ;;(autoload 'run-sml "sml-proc" "Run an inferior SML process." t)
 ;;(add-to-list 'auto-mode-alist '("\\.\\(sml\\|sig\\)\\'" . sml-mode))
+
+;; scheme-complete (for chicken)
+(autoload 'scheme-smart-complete "scheme-complete" nil t)
+(eval-after-load 'scheme
+  '(define-key scheme-mode-map "\e\t" 'scheme-smart-complete))
+;; (setq lisp-indent-function 'scheme-smart-indent-function) ;; smarter scheme-complete indentation
+(setq scheme-default-implementation 'chicken)
+(setq scheme-program-name "csi -:c")
