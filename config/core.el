@@ -12,8 +12,8 @@
 ;; set default font
 (set-face-attribute 'default nil :font "Inconsolata-8")
 
-;;;; tell auctex to output pdfs
-;;(setq TeX-PDF-mode t)
+;; tell auctex to output pdfs
+(setq TeX-PDF-mode t)
 
 ;; markdown-mode
 (autoload 'markdown-mode "markdown-mode.el"
