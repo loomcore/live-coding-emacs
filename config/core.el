@@ -36,3 +36,17 @@
 (setq display-time-day-and-date t
       display-time-24hr-format t)
 (display-time)
+
+;; ecl
+(setq inferior-lisp-program "ecl") ; your Lisp system
+;;(add-to-list 'load-path "~/hacking/lisp/slime/")  ; your SLIME directory
+;;(require 'slime)
+(slime-setup)
+
+;; sml-mode
+;;(load-dotfile "../lib/sml-mode-startup.elc")
+(add-to-list 'load-path "../lib/sml-mode/")
+(load "../lib/sml-mode/sml-mode-startup.el")
+;;(autoload 'sml-mode "sml-mode" "Major mode for editing SML." t)
+;;(autoload 'run-sml "sml-proc" "Run an inferior SML process." t)
+;;(add-to-list 'auto-mode-alist '("\\.\\(sml\\|sig\\)\\'" . sml-mode))
