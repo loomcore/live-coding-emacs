@@ -58,3 +58,14 @@
 ;; (setq lisp-indent-function 'scheme-smart-indent-function) ;; smarter scheme-complete indentation
 (setq scheme-default-implementation 'chicken)
 (setq scheme-program-name "csi -:c")
+
+;; prolog mode
+(setq auto-mode-alist
+      (append
+       '(("\\.pl" . prolog-mode))
+       auto-mode-alist))
+(setq prolog-program-name "swipl")
+(setq prolog-consult-string "[user].\n")
+;If you want this.  Indentation is either poor or I don't use
+;it as intended.
+;(setq prolog-indent-width 8)
