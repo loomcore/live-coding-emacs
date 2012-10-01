@@ -53,3 +53,5 @@
  '(ediff-odd-diff-B ((((class color) (background dark)) (:background "dark red"))))
  '(mumamo-background-chunk-major ((((class color) (background dark)) (:background "black"))))
  '(mumamo-background-chunk-submode1 ((((class color) (background dark)) (:background "black")))))
+
+(eshell)
