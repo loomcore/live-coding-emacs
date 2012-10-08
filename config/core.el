@@ -69,3 +69,5 @@
 ;If you want this.  Indentation is either poor or I don't use
 ;it as intended.
 ;(setq prolog-indent-width 8)
+
+(global-set-key (kbd "<f12>") (lambda nil (interactive) (shell-command "acpi")))
