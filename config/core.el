@@ -10,7 +10,7 @@
 (load-dotfile "config/bindings.el")
 
 ;; set default font
-(set-face-attribute 'default nil :font "Inconsolata-8")
+(set-face-attribute 'default nil :font "Oxygen Mono-8")
 
 ;; tell auctex to output pdfs
 (setq TeX-PDF-mode t)
@@ -71,3 +71,19 @@
 ;(setq prolog-indent-width 8)
 
 (global-set-key (kbd "<f12>") (lambda nil (interactive) (shell-command "acpi")))
+
+;; picolisp-mode
+(add-to-list 'load-path "/home/phil/.emacs.d/lib/picoLisp/lib/el")
+(load "tsm.el") ;; Picolisp TransientSymbolsMarkup (*Tsm)
+(autoload 'run-picolisp "inferior-picolisp")
+(autoload 'picolisp-mode "picolisp" "Major mode for editing Picolisp." t)
+(setq picolisp-program-name "pil +")
+
+(add-to-list 'auto-mode-alist '("\\.l$" . picolisp-mode))
+
+(add-hook 'picolisp-mode-hook
+   (lambda ()
+;;      (paredit-mode +1) ;; Loads paredit mode automatically
+      (tsm-mode) ;; Enables TSM
+      (define-key picolisp-mode-map (kbd "RET") 'newline-and-indent)))
+;;      (define-key picolisp-mode-map (kbd "C-h") 'paredit-backward-delete) ) )
