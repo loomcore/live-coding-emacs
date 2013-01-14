@@ -59,11 +59,11 @@
 (setq scheme-default-implementation 'chicken)
 (setq scheme-program-name "csi -:c")
 
-;; prolog mode
-(setq auto-mode-alist
-      (append
-       '(("\\.pl" . prolog-mode))
-       auto-mode-alist))
+;; prolog mode (no longer automatic, to distinguish from cperl-mode)
+;;(setq auto-mode-alist
+;;      (append
+;;       '(("\\.pl" . prolog-mode))
+;;       auto-mode-alist))
 (setq prolog-program-name "swipl")
 (setq prolog-consult-string "[user].\n")
 ;If you want this.  Indentation is either poor or I don't use
@@ -87,3 +87,62 @@
       (tsm-mode) ;; Enables TSM
       (define-key picolisp-mode-map (kbd "RET") 'newline-and-indent)))
 ;;      (define-key picolisp-mode-map (kbd "C-h") 'paredit-backward-delete) ) )
+
+;; erlang-mode
+(setq load-path (cons  "/usr/lib/erlang/lib/tools-2.6.8/emacs"
+      load-path))
+      (setq erlang-root-dir "/usr/lib/erlang")
+      (setq exec-path (cons "/usr/lib/erlang/bin" exec-path))
+      (require 'erlang-start)
+
+(add-to-list 'auto-mode-alist '("\\.\\(erl\\|hrl\\)\\'" . erlang-mode))
+
+(require 'erlang-flymake)
+
+;; python-mode
+(add-to-list 'load-path "/home/phil/.emacs.d/lib/python-mode/")
+(setq py-install-directory "/home/phil/.emacs.d/lib/python-mode/")
+(require 'python-mode)
+(setq py-shell-name "/usr/bin/python2.7")
+
+;; pymacs config
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-exec "pymacs" nil t)
+(autoload 'pymacs-load "pymacs" nil t)
+(autoload 'pymacs-autoload "pymacs")
+;;(eval-after-load "pymacs"
+;;  '(add-to-list 'pymacs-load-path YOUR-PYMACS-DIRECTORY"))
+
+;; ropemacs config
+(require 'pymacs)
+(pymacs-load "ropemacs" "rope-")
+
+;; ryan mcguire's python-mode customisations
+(autoload 'python-mode "python-mode" "Python Mode." t)
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+(setq interpreter-mode-alist
+      (cons '("python" . python-mode)
+            interpreter-mode-alist)
+      python-mode-hook
+      '(lambda () (progn
+                    (set-variable 'py-indent-offset 4)
+                    (set-variable 'py-smart-indentation nil)
+                    (set-variable 'indent-tabs-mode nil)
+                    ;;(highlight-beyond-fill-column)
+                    (define-key python-mode-map "\C-m" 'newline-and-indent)
+                    ;;(pabbrev-mode)
+                    (abbrev-mode)
+         )
+      )
+)
+
+;; ledger-mode
+;; (load "ldg-new")
+(add-to-list 'load-path "/home/phil/.emacs.d/lib/ledger/")
+(load "ledger")
+
+;; replace perl-mode with cperl-mode
+(defalias 'perl-mode 'cperl-mode)
